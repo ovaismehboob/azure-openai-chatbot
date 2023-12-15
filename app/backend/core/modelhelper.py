@@ -29,7 +29,7 @@ def num_tokens_from_messages(message: dict[str, str], model: str) -> int:
     Returns:
         int: The total number of tokens required to encode the message.
     Example:
-        message = {'role': 'user', 'content': 'Hello, how are you?'}
+        message = {'role': 'user', 'content': 'Hello, how are you?', 'upn': 'email@email.com'}
         model = 'gpt-3.5-turbo'
         num_tokens_from_messages(message, model)
         output: 11

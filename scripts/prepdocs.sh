@@ -29,4 +29,5 @@ $aclArg  --storageaccount "$AZURE_STORAGE_ACCOUNT" \
 --openaimodelname "$AZURE_OPENAI_EMB_MODEL_NAME" --index "$AZURE_SEARCH_INDEX" \
 --formrecognizerservice "$AZURE_FORMRECOGNIZER_SERVICE" --openaimodelname "$AZURE_OPENAI_EMB_MODEL_NAME" \
 --tenantid "$AZURE_TENANT_ID" --openaihost "$OPENAI_HOST" \
+--upn "$UPN" \
 --openaikey "$OPENAI_API_KEY" -v

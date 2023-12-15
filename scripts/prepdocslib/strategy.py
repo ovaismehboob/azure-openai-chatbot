@@ -21,11 +21,13 @@ class SearchInfo:
         credential: Union[AsyncTokenCredential, AzureKeyCredential],
         index_name: str,
         verbose: bool = False,
+        upn: str = None,
     ):
         self.endpoint = endpoint
         self.credential = credential
         self.index_name = index_name
         self.verbose = verbose
+        self.upn = upn
 
     def create_search_client(self) -> SearchClient:
         return SearchClient(endpoint=self.endpoint, index_name=self.index_name, credential=self.credential)

@@ -32,6 +32,7 @@ class FileStrategy(Strategy):
         search_analyzer_name: Optional[str] = None,
         use_acls: bool = False,
         category: Optional[str] = None,
+        upn: Optional[str]= None
     ):
         self.list_file_strategy = list_file_strategy
         self.blob_manager = blob_manager
@@ -42,6 +43,7 @@ class FileStrategy(Strategy):
         self.search_analyzer_name = search_analyzer_name
         self.use_acls = use_acls
         self.category = category
+        self.upn=upn
 
     async def setup(self, search_info: SearchInfo):
         search_manager = SearchManager(search_info, self.search_analyzer_name, self.use_acls, self.embeddings)
@@ -57,7 +59,7 @@ class FileStrategy(Strategy):
                     if search_info.verbose:
                         print(f"Splitting '{file.filename()}' into sections")
                     sections = [
-                        Section(split_page, content=file, category=self.category)
+                        Section(split_page, content=file, category=self.category, upn=search_info.upn)
                         for split_page in self.text_splitter.split_pages(pages)
                     ]
                     await search_manager.update_content(sections)

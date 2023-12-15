@@ -47,7 +47,10 @@ export type ChatAppResponse = {
 };
 
 export type ChatAppRequestContext = {
-    overrides?: ChatAppRequestOverrides;
+    overrides?: ChatAppRequestOverrides; 
+
+    //Added custom user email field to context object to pass to backend
+    upn?: string; 
 };
 
 export type ChatAppRequest = {

@@ -111,6 +111,7 @@ def setup_file_strategy(credential: AsyncTokenCredential, args: Any) -> FileStra
         search_analyzer_name=args.searchanalyzername,
         use_acls=args.useacls,
         category=args.category,
+        upn=args.upn,
     )
 
 
@@ -123,6 +124,7 @@ async def main(strategy: Strategy, credential: AsyncTokenCredential, args: Any):
         credential=search_creds,
         index_name=args.index,
         verbose=args.verbose,
+        upn=args.upn
     )
 
     if not args.remove and not args.removeall:
@@ -242,6 +244,9 @@ if __name__ == "__main__":
     )
 
     parser.add_argument("--verbose", "-v", action="store_true", help="Verbose output")
+
+    parser.add_argument("--upn", help="User upn for the context of the search")
+
     args = parser.parse_args()
 
     # Use the current user identity to connect to Azure services unless a key is explicitly set for any of them

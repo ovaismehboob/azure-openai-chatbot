@@ -31,10 +31,11 @@ class Section:
     A section of a page that is stored in a search service. These sections are used as context by Azure OpenAI service
     """
 
-    def __init__(self, split_page: SplitPage, content: File, category: Optional[str] = None):
+    def __init__(self, split_page: SplitPage, content: File, category: Optional[str] = None, upn: Optional[str]=None):
         self.split_page = split_page
         self.content = content
         self.category = category
+        self.upn = upn
 
 
 class SearchManager:
@@ -77,6 +78,8 @@ class SearchManager:
                 SimpleField(name="category", type="Edm.String", filterable=True, facetable=True),
                 SimpleField(name="sourcepage", type="Edm.String", filterable=True, facetable=True),
                 SimpleField(name="sourcefile", type="Edm.String", filterable=True, facetable=True),
+                SimpleField(name="upn", type="Edm.String", filterable=True, facetable=True)
+
             ]
             if self.use_acls:
                 fields.append(
@@ -142,6 +145,7 @@ class SearchManager:
                             filename=section.content.filename(), page=section.split_page.page_num
                         ),
                         "sourcefile": section.content.filename(),
+                        "upn": section.upn, # Added upn  
                         **section.content.acls,
                     }
                     for section_index, section in enumerate(batch)

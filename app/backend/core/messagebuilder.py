@@ -19,7 +19,7 @@ class MessageBuilder:
         token_count (int): The total number of tokens in the conversation.
     Methods:
         __init__(self, system_content: str, chatgpt_model: str): Initializes the MessageBuilder instance.
-        insert_message(self, role: str, content: str, index: int = 1): Inserts a new message to the conversation.
+        insert_message(self, role: str, upn: content: str, index: int = 1): Inserts a new message to the conversation.
     """
 
     def __init__(self, system_content: str, chatgpt_model: str):
@@ -34,6 +34,7 @@ class MessageBuilder:
         or at index 1 (after system message) if no index is specified.
         Args:
             role (str): The role of the message sender (either "user", "system", or "assistant").
+            upn (str) : The upn of the user sending the message.
             content (str): The content of the message.
             index (int): The index at which to insert the message.
         """

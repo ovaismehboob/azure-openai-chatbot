@@ -119,7 +119,8 @@ If you cannot generate a search query, return just the number 0.
         has_vector = overrides.get("retrieval_mode") in ["vectors", "hybrid", None]
         use_semantic_captions = True if overrides.get("semantic_captions") and has_text else False
         top = overrides.get("top", 3)
-        filter = self.build_filter(overrides, auth_claims)
+        upn="ovaismehboob@hotmail.com"
+        filter = self.build_filter(overrides, auth_claims, upn)
         original_user_query = history[-1]["content"]
         user_query_request = "Generate search query for: " + original_user_query
 

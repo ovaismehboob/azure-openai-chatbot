@@ -98,7 +98,9 @@ const Chat = () => {
         setActiveAnalysisPanelTab(undefined);
 
         const token = client ? await getToken(client) : undefined;
-
+        console.log("token",token?.accessToken);
+        const upn ="ovaismehboob@hotmail.com";               
+        
         try {
             const messages: ResponseMessage[] = answers.flatMap(a => [
                 { content: a[0], role: "user" },
@@ -109,6 +111,7 @@ const Chat = () => {
                 messages: [...messages, { content: question, role: "user" }],
                 stream: shouldStream,
                 context: {
+                    upn: upn,
                     overrides: {
                         prompt_template: promptTemplate.length === 0 ? undefined : promptTemplate,
                         exclude_category: excludeCategory.length === 0 ? undefined : excludeCategory,
