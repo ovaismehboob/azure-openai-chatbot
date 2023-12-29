@@ -16,6 +16,7 @@ import { ClearChatButton } from "../../components/ClearChatButton";
 import { useLogin, getToken } from "../../authConfig";
 import { useMsal } from "@azure/msal-react";
 import { TokenClaimsDisplay } from "../../components/TokenClaimsDisplay";
+import { Base64 } from 'js-base64';
 
 const Chat = () => {
     const [isConfigPanelOpen, setIsConfigPanelOpen] = useState(false);
@@ -99,13 +100,30 @@ const Chat = () => {
 
         const token = client ? await getToken(client) : undefined;
         console.log("token",token?.accessToken);
-        const upn ="ovaismehboob@hotmail.com";               
+        let upn ="";       
         
+        if(token && token.accessToken){
+            const accessToken = token?.accessToken;
+            const payload = accessToken.split('.')[1];
+            const decodedPayload = JSON.parse(Base64.decode(payload));
+
+            if (decodedPayload && decodedPayload.upn) {
+            upn = decodedPayload.upn.toLowerCase();
+            console.log(`UPN: ${decodedPayload.upn}`);
+            } else {
+            console.log('UPN not found in the token');
+            }
+        }
+
         try {
             const messages: ResponseMessage[] = answers.flatMap(a => [
                 { content: a[0], role: "user" },
                 { content: a[1].choices[0].message.content, role: "assistant" }
             ]);
+            
+            if (!upn) {
+                throw new Error('UPN is empty');
+            }
 
             const request: ChatAppRequest = {
                 messages: [...messages, { content: question, role: "user" }],

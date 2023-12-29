@@ -114,13 +114,13 @@ If you cannot generate a search query, return just the number 0.
         overrides: dict[str, Any],
         auth_claims: dict[str, Any],
         should_stream: bool = False,
+        upn: str = ""
     ) -> tuple[dict[str, Any], Coroutine[Any, Any, Union[ChatCompletion, AsyncStream[ChatCompletionChunk]]]]:
         has_text = overrides.get("retrieval_mode") in ["text", "hybrid", None]
         has_vector = overrides.get("retrieval_mode") in ["vectors", "hybrid", None]
         use_semantic_captions = True if overrides.get("semantic_captions") and has_text else False
         top = overrides.get("top", 3)
-        upn="ovaismehboob@hotmail.com"
-        filter = self.build_filter(overrides, auth_claims, upn)
+        filter = self.build_filter(overrides, auth_claims, upn)   
         original_user_query = history[-1]["content"]
         user_query_request = "Generate search query for: " + original_user_query
 
@@ -258,9 +258,10 @@ If you cannot generate a search query, return just the number 0.
         overrides: dict[str, Any],
         auth_claims: dict[str, Any],
         session_state: Any = None,
+        upn: str = ""
     ) -> dict[str, Any]:
         extra_info, chat_coroutine = await self.run_until_final_call(
-            history, overrides, auth_claims, should_stream=False
+            history, overrides, auth_claims, should_stream=False, upn=upn
         )
         chat_completion_response: ChatCompletion = await chat_coroutine
         chat_resp = chat_completion_response.model_dump()  # Convert to dict to make it JSON serializable
@@ -278,9 +279,15 @@ If you cannot generate a search query, return just the number 0.
         overrides: dict[str, Any],
         auth_claims: dict[str, Any],
         session_state: Any = None,
+        upn: str = ""
     ) -> AsyncGenerator[dict, None]:
+
+        if upn == "":  
+            raise ValueError("UPN is empty")
+        exit; 
+
         extra_info, chat_coroutine = await self.run_until_final_call(
-            history, overrides, auth_claims, should_stream=True
+            history, overrides, auth_claims, should_stream=True, upn=upn
         )
         yield {
             "choices": [
@@ -334,10 +341,11 @@ If you cannot generate a search query, return just the number 0.
     ) -> Union[dict[str, Any], AsyncGenerator[dict[str, Any], None]]:
         overrides = context.get("overrides", {})
         auth_claims = context.get("auth_claims", {})
+        upn = context.get("upn", "")
         if stream is False:
-            return await self.run_without_streaming(messages, overrides, auth_claims, session_state)
+            return await self.run_without_streaming(messages, overrides, auth_claims, session_state, upn)
         else:
-            return self.run_with_streaming(messages, overrides, auth_claims, session_state)
+            return self.run_with_streaming(messages, overrides, auth_claims, session_state, upn)
 
     def get_messages_from_history(
         self,

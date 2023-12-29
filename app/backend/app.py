@@ -195,7 +195,9 @@ async def setup_clients():
     AZURE_SERVER_APP_ID = os.getenv("AZURE_SERVER_APP_ID")
     AZURE_SERVER_APP_SECRET = os.getenv("AZURE_SERVER_APP_SECRET")
     AZURE_CLIENT_APP_ID = os.getenv("AZURE_CLIENT_APP_ID")
-    AZURE_TENANT_ID = os.getenv("AZURE_TENANT_ID")
+
+    #Added Tenant ID 
+    AZURE_TENANT_ID =  "ovaistest.onmicrosoft.com" #os.getenv("AZURE_TENANT_ID")
     TOKEN_CACHE_PATH = os.getenv("TOKEN_CACHE_PATH")
 
     KB_FIELDS_CONTENT = os.getenv("KB_FIELDS_CONTENT", "content")
